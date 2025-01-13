@@ -17,3 +17,4 @@
 # 4. 药效评估函数
 `drug_efficacy_evaluation` 文件夹
 ## 4.1 gaolu药效函数
+使用高师兄的药效评估函数计算药物药效。
