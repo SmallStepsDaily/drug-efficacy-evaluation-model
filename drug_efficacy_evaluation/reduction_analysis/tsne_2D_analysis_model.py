@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 
 # 读取CSV文件
-file_path = r'C:\Code\python\csv_data\hql\phenotypic_feature\hql_H1975_6h_Mit.csv'
+file_path = r'C:\Code\python\csv_data\hql\phenotypic_feature\Mit\hql_H1975_2h_Mit.csv'
 df = pd.read_csv(file_path)
 
 # 数据清理

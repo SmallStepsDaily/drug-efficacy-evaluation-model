@@ -5,6 +5,7 @@ from scipy.spatial.distance import pdist, squareform
 from sklearn.manifold import TSNE
 import os
 import matplotlib
+from sklearn.preprocessing import StandardScaler
 
 matplotlib.rcParams['font.sans-serif'] = ['SimHei']  # 使用黑体字体
 matplotlib.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
@@ -18,9 +19,13 @@ def tsne_distance(drug_df, control_df):
     X = merged_df.drop('label', axis=1)
     labels = merged_df['label']
 
+    # 特征归一化
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
     # 进行t-SNE降维
     tsne = TSNE(n_components=2, random_state=0)
-    X_tsne = tsne.fit_transform(X)
+    X_tsne = tsne.fit_transform(X_scaled)
 
     # 合并降维坐标和标签
     tsne_df = pd.DataFrame(X_tsne, columns=['x', 'y'])
@@ -82,7 +87,7 @@ def tsne_distance(drug_df, control_df):
 
 if __name__ == "__main__":
     # 读取CSV文件
-    file_path = r'C:\Code\python\csv_data\hql\phenotypic_feature\hql_H1975_6h_Mit.csv'
+    file_path = r'C:\Code\python\csv_data\hql\phenotypic_feature\Mit\hql_H1975_2h_Mit.csv'
     df = pd.read_csv(file_path)
 
     # 数据清理
