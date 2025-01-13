@@ -47,7 +47,7 @@ def draw_plt(x_range, pdf_control, pdf_drug, js_divergence_value):
     plt.ylabel('Probability Density', fontsize=16)
     # plt.title('Probability Distribution of Two Treatments')
     # 在图像下方显示表型表征值
-    plt.figtext(0.05, 0.05, f'表型表征值: {js_divergence_value:.4f}', ha='left', fontsize=16)
+    plt.figtext(0.05, 0.05, f'效率表征值: {js_divergence_value:.4f}', ha='left', fontsize=16)
     # 添加图例，并放在右上角
     plt.legend(loc='upper right')
     plt.show()
