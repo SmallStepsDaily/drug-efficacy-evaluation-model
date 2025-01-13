@@ -19,7 +19,6 @@ metadata_columns.extend(['ImageNumber', 'ObjectNumber'])
 
 # 特征列
 feature_columns = [col for col in df.columns if col not in metadata_columns]
-
 # 标签列
 df['Label'] = df['Metadata_treatment'] + '_' + df['Metadata_hour'].astype(str)
 

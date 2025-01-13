@@ -1,13 +1,14 @@
-
+import matplotlib
 import numpy as np
 import pandas as pd
 from scipy.spatial.distance import jensenshannon
 from scipy.stats import gaussian_kde
-
+matplotlib.rcParams['font.sans-serif'] = ['SimHei']  # 使用黑体字体
+matplotlib.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
 def js_divergence(control, drug, draw=False):
-    # 删除小于0.05的值
-    control = control[control >= 0]
-    drug = drug[drug >= 0]
+
+    control = control[control > 0]
+    drug = drug[drug > 0]
 
     # 检查过滤后的数据
     print("control过滤后的数据量:", len(control))
@@ -28,23 +29,27 @@ def js_divergence(control, drug, draw=False):
 
     # 计算JS散度
     js_divergence_value = jensenshannon(pdf_control, pdf_drug, base=2)  # base=2表示结果在[0, 1]之间
-    if draw:
-        draw_plt(x_range, pdf_control, pdf_drug)
     print(f"JS散度: {js_divergence_value:.4f}")
+    if draw:
+        draw_plt(x_range, pdf_control, pdf_drug, js_divergence_value)
     return js_divergence_value
 
 
-def draw_plt(x_range, pdf_control, pdf_drug):
+def draw_plt(x_range, pdf_control, pdf_drug, js_divergence_value):
     # 可视化两个分布
     import matplotlib.pyplot as plt
-
+    # 设置更大的图形大小
+    plt.figure(figsize=(10, 8))
     plt.plot(x_range, pdf_control, label='control')
     plt.plot(x_range, pdf_drug, label='gefitinib')
     plt.yticks([])  # 隐藏y轴刻度标签
-    plt.xlabel('Feature Value')
-    plt.ylabel('Probability Density')
-    plt.title('Probability Distribution of Two Treatments')
-    plt.legend()
+    plt.xlabel('Feature Value', fontsize=16)
+    plt.ylabel('Probability Density', fontsize=16)
+    # plt.title('Probability Distribution of Two Treatments')
+    # 在图像下方显示表型表征值
+    plt.figtext(0.05, 0.05, f'表型表征值: {js_divergence_value:.4f}', ha='left', fontsize=16)
+    # 添加图例，并放在右上角
+    plt.legend(loc='upper right')
     plt.show()
 
 
@@ -61,4 +66,4 @@ if __name__ == '__main__':
     # 提取需要分析的列（假设为'feature_column'）
     feature_1 = treatment_1['Ed_agg_top_25_value'].values  # 替换为实际的列名
     feature_2 = treatment_2['Ed_agg_top_25_value'].values  # 替换为实际的列名
-    js_divergence(feature_1, feature_2)
+    js_divergence(feature_1, feature_2, True)
