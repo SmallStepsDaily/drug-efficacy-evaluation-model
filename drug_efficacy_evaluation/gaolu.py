@@ -53,18 +53,21 @@ def gaolu_function(df):
         # 得出矫正因子 alpha 和 beta
         alpha = alpha_list[max_std_index]
         beta = beta_list[max_std_index]
-
+        if alpha == 0:
+            alpha = 0.5
+            beta = 0.5
+        print(f"{treatment} =============> alpha:{alpha}, beta: {beta}")
         ##################################################
         # 计算不同时间和浓度梯度下的药效矩阵 R
         ##################################################
         R_matrix = 100* ((alpha * treatment_E + 1) ** (beta * treatment_S) - 1)
-
+        print(f"{treatment} =============> R_matrix: {R_matrix}")
         #################################################
         # 计算权重函数矩阵 B
         #################################################
         B_matrix = (-np.log10(treatment_concentration + 1e-10)) ** (-treatment_time)
         B_matrix = B_matrix / (1 + B_matrix)
-
+        print(f"{treatment} =============> B_matrix: {B_matrix}")
         ##################################################
         # 显示最后的结果取值
         ##################################################
@@ -72,5 +75,5 @@ def gaolu_function(df):
 
 
 if __name__ == "__main__":
-    data = pd.read_csv(r"C:\Code\python\csv_data\hql\药效评估.csv")
+    data = pd.read_csv(r"C:\Code\python\csv_data\hql\20250218_H1975——2h靶向药物对比数据\hql_20250218靶向药物.csv", encoding="utf-8")
     gaolu_function(data)
