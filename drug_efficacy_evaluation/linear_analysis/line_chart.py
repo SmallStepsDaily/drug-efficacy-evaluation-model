@@ -27,6 +27,9 @@ for i, treatment in enumerate(treatments):
     axs[i].set_xlabel('Time (hours)', fontsize=16)
     axs[i].set_ylabel('Different Eigenvalues', fontsize=16)
 
+    # 设置Y轴刻度范围为0到2
+    axs[i].set_ylim([0, 2])
+
     # 添加图例到右上角，并增加字体大小
     axs[i].legend(loc='upper right', fontsize=14)
 
